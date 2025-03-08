@@ -132,6 +132,6 @@ int main()
         }
     }
 
-    printf("result : %d\n", pop(&s));
+    printf("Result : %d\n", pop(&s));
     return 0;
 }
