@@ -21,8 +21,10 @@ void Enque(struct CQueue *R, int element)
 int Deque(struct CQueue *Q)
 {
     int element;
-    if (Q->REAR == Q->FRONT)
-        printf("QUEUE IS EMPTY!!!");
+    if (Q->REAR == Q->FRONT){
+        printf("QUEUE IS EMPTY!!!\n");
+        return -1;
+    }
     else
     {
         element = Q->DATA[Q->FRONT];
@@ -48,7 +50,8 @@ int main()
         if (choice == 2)
         {
             int output = Deque(&Q);
-            printf("%d\n", output);
+            if (output != -1)
+                printf("%d\n", output);
         }
     }
     return 0;
