@@ -1,125 +1,79 @@
-/*wap in c to implement stack is an ADT .
- the stack should be able to store user define structure
-*/
-#include <stdio.h>
-#define true 1
-#define false 0
-#define MAX 5
+#include<stdio.h>
+#include<string.h>
+#define Max 5
 
 struct employee
 {
-    char name[20];
-    int id;
+    int TOS;
+    char name[Max][20];
+    int id[Max];
 };
 
-struct stack
+int isfull(struct employee *e)
 {
-    int TOS; // Top of Stack
-    struct employee emp[MAX];
-};
-
-// stack full xa ki xaina
-int isFull(struct stack *s)
-{
-    if (s->TOS == MAX - 1) 
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return e->TOS == Max-1? 1:0;
 }
 
-// stack empty xa ki xaina
-int isEmpty(struct stack *s)
+int isempty(struct employee *e)
 {
-    if (s->TOS == -1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return e->TOS == -1? 1:0;
 }
 
-// isFull false vaye, add employee to the stack
-void push(struct stack *s, struct employee e)
+void push(struct employee *e, int id, char name[20])
 {
-    if (isFull(s))
-    {
-        printf("Stack Overflow! \n");
-    }
-    else
-    {
-        s->TOS += 1; // push garda jaile pani suruma TOS lai increase garney
-        s->emp[s->TOS] = e;
-        
-    }
+    e->TOS += 1;
+    strcpy(e->name[e->TOS], name);
+    e->id[e->TOS] = id;
+    printf("Employee pushed to stack..\n");
 }
 
-// isEmpty false vaye, stack bata 1st element nikal
-void pop(struct stack *s)
+void pop(struct employee *e)
 {
-    if (isEmpty(s))
-    {
-        printf("Stack Underflow! \n");
+    if(e->TOS == -1) {
+        printf("Stack underflow!!!!!\n");
     }
-    else
-    {
-        struct employee e = s->emp[s->TOS]; // pop garda jaile pani suruma pop garney ani matra TOS lai decrease garney
-        
-        s->TOS -= 1;
+    else{
+        printf("Name = %s, ID = %d, \n", e->name[e->TOS], e->id[e->TOS]);
+        e->TOS -= 1;
     }
 }
 
 int main()
 {
-    struct stack s;
-    s.TOS = -1; // stack lai empty parney
-
+    struct employee emp = {-1};
     int choice;
-    struct employee e;
-
-    printf("Welcome boss!\n");
-
-    while (1)
-    { // infinite loop ho , break use gareypaxi matra tutxa
-
-        printf("Menu:\n");
-        printf("1. Add Employee\n");
-        printf("2. Remove Employee\n");
-        printf("3. Exit\n");
-        printf("Enter your choice: ");
+    char name[20];
+    int id;
+    while(1){
+        printf("\n1. PUSH: \n2. POP: \n3. EXIT:");
+        printf("\nEnter your choice:");
         scanf("%d", &choice);
-
-        if (choice == 1)
-        {
-
-            printf("Employee Name: ");
-            scanf("%s", e.name);
-            printf("Employee ID: ");
-            scanf("%d", &e.id);
-            push(&s, e);
-        }
-        else if (choice == 2)
-        {
-
-            pop(&s);
-        }
-        else if (choice == 3)
-        {
-
-            printf("Nothing to do!\n");
+        switch (choice){
+            case 1: if(isfull(&emp)){
+                printf("Stack Overflow..\n");
+            }
+            else{
+                printf("Enter the employee name:");
+                scanf("%s", name);
+                printf("Enter the employee ID: ");
+                scanf("%d", &id);
+                push(&emp,id,name);
+            }
             break;
-        }
-        else
-        {
 
-            printf("Enter correct number!!\n");
+            case 2:if(isempty(&emp)){
+                printf("Stack Underflow..\n");
+            }
+            else{
+                pop(&emp);
+            }
+            break;
+            
+            case 3: printf("Exiting...\n");
+            return 0;
+
+            default : printf("Invalid choice! \nPlease try the valid number (1,2,3)\n");
         }
     }
-
     return 0;
 }
